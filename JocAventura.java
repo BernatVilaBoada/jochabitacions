@@ -3,11 +3,13 @@ import java.util.Scanner;
 public class JocAventura {
     private Jugador jugador;
     private Mapa mapa;
+    private Habitacio HabitacioActual;
 
     public JocAventura() {
         this.mapa = new Mapa();
         this.jugador = new Jugador();
         this.jugador.setPosicioActual(mapa.getHabitacioInicial());
+        this.HabitacioActual = jugador.getPosicioActual();
     }
 
     public void executar() {
@@ -91,28 +93,9 @@ public class JocAventura {
             case "usar":
                 if (parts.length > 1) {
                     String nomItem = parts[1];
-
+                    HabitacioActual = jugador.getPosicioActual();
                     Item item = jugador.buscarItem(nomItem);
-
-                    if (item instanceof Clau clau) {
-
-                        Habitacio actual = jugador.getPosicioActual();
-
-                        if (actual instanceof HabitacioAmbPortaTancada tancada) {
-
-                            if (tancada.intentarObrir(clau)) {
-                                System.out.println(" Has obert la porta!");
-                            } else {
-                                System.out.println(" Aquesta clau no funciona.");
-                            }
-
-                        } else {
-                            System.out.println("Aquí no hi ha res per obrir.");
-                        }
-
-                    } else {
-                        System.out.println("No tens aquesta clau.");
-                    }
+                    HabitacioActual.utilitzarItem(item);
 
                 } else {
                     System.out.println("Què vols usar?");
